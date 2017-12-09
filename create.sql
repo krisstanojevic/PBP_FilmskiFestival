@@ -8,8 +8,8 @@ DROP TABLE IF EXISTS Filmski_festival ;
 
 CREATE TABLE IF NOT EXISTS Filmski_festival  (
   id_festivala INT NOT NULL PRIMARY KEY,
-  naziv VARCHAR(45) NOT NULL,
-  adresa VARCHAR(45) NOT NULL
+  naziv VARCHAR(45),
+  adresa VARCHAR(45)
 )ENGINE = InnoDB;
 
 
@@ -20,8 +20,8 @@ DROP TABLE IF EXISTS Film ;
 
 CREATE TABLE IF NOT EXISTS Film  (
   id_filma INT NOT NULL PRIMARY KEY,
-  naziv VARCHAR(45) NOT NULL,
-  trajanje INT NOT NULL
+  naziv VARCHAR(45) ,
+  trajanje INT 
 )ENGINE = InnoDB;
 
 
@@ -30,9 +30,8 @@ DROP TABLE IF EXISTS Projektuje ;
 
 CREATE TABLE IF NOT EXISTS Projektuje (
  
-  vreme INT NOT NULL,
-   datum DATE NOT NULL ,
-   broj_mesta INT NOT NULL,
+  vreme VARCHAR(100),
+   broj_mesta INT,
    festival INT NOT NULL,
    film INT NOT NULL,
    
@@ -121,27 +120,14 @@ DROP TABLE IF EXISTS Karta ;
 
 CREATE TABLE IF NOT EXISTS Karta (
   id_karte INT NOT NULL PRIMARY KEY,
-  broj_sedista VARCHAR(45) ,
-  slobodno_zauzeto VARCHAR(45) NOT NULL,
-  cena INT 
-)ENGINE = InnoDB;
-
-
-
-DROP TABLE IF EXISTS Stampa ;
-
-CREATE TABLE IF NOT EXISTS Stampa (
-  karta INT NOT NULL ,
+  broj_sedista VARCHAR(10) ,
+  slobodno_zauzeto VARCHAR(45),
+  cena INT,
   festival INT NOT NULL,
   film INT NOT NULL,
-  INDEX k_karta (karta) ,
   INDEX k_festival(festival) ,
   INDEX k_film (film) ,
-  
-    FOREIGN KEY (karta)
-    REFERENCES Karta (id_karte)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+ 
     FOREIGN KEY (festival)
     REFERENCES Filmski_festival (id_festivala)
     ON DELETE NO ACTION
@@ -152,19 +138,33 @@ CREATE TABLE IF NOT EXISTS Stampa (
     ON UPDATE NO ACTION
 )ENGINE = InnoDB;
 
+
 DROP TABLE IF EXISTS Kupuje ;
 
 CREATE TABLE IF NOT EXISTS Kupuje (
   gledalac INT NOT NULL ,
   karta INT NOT NULL,
+  festival INT NOT NULL,
+  film INT NOT NULL,
+  
   INDEX k_gledalac (gledalac) ,
   INDEX k_karta (karta) ,
+  INDEX k_festival(festival) ,
+  INDEX k_film (film) ,
     FOREIGN KEY (gledalac)
     REFERENCES Gledalac (id_gledaoca)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
       FOREIGN KEY (karta)
     REFERENCES Karta (id_karte)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION, 
+    FOREIGN KEY (festival)
+    REFERENCES Filmski_festival (id_festivala)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    FOREIGN KEY (film)
+    REFERENCES Film (id_filma)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 )ENGINE = InnoDB;
