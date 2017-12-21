@@ -1,0 +1,59 @@
+use festivali;
+DELIMITER $$
+
+DROP TRIGGER IF EXISTS cetvrti $$ 
+CREATE TRIGGER cetvrti AFTER INSERT ON Projektuje
+FOR EACH ROW
+BEGIN
+  DECLARE ukupno TINYINT;
+  DECLARE broj INT;
+  set ukupno = new.broj_mesta+1;
+    if (ukupno > 1)
+    then begin
+      set ukupno = ukupno - 1;
+      set broj = (10*new.festival)+(100*new.film) + (1000*ukupno);
+      if(not exists(select id_karte from Karta k where broj = k.id_karte))
+	then 
+	  insert into Karta values(broj,ukupno,'Slobodno',300);
+      
+      end if;
+      
+    end; 
+    end if;
+  	
+	
+END $$
+
+DROP TRIGGER IF EXISTS drugi $$ 
+CREATE TRIGGER drugi BEFORE INSERT ON Kupuje
+FOR EACH ROW
+BEGIN
+
+	
+	 IF((select slobodno_zauzeto from Karta where new.karta = Karta.id_karte) like 'Zauzeto')
+		THEN
+		SIGNAL SQLSTATE '45000' SET message_text = 'Greska: Ta karta je vec kupljena';
+	 END IF;
+END $$
+
+DROP TRIGGER IF EXISTS treci $$ 
+CREATE TRIGGER treci AFTER INSERT ON Kupuje
+FOR EACH ROW
+BEGIN
+update Karta 
+	set slobodno_zauzeto  = "Zauzeto"
+	where new.karta = id_karte ;
+END $$
+
+
+
+
+
+
+
+
+
+
+
+
+
