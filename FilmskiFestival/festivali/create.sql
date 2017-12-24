@@ -8,8 +8,8 @@ DROP TABLE IF EXISTS Filmski_festival ;
 
 CREATE TABLE IF NOT EXISTS Filmski_festival  (
   id_festivala INT NOT NULL PRIMARY KEY,
-  naziv VARCHAR(45),
-  adresa VARCHAR(45)
+  naziv VARCHAR(45) NOT NULL,
+  adresa VARCHAR(45) NOT NULL
 )ENGINE = InnoDB;
 
 
@@ -20,8 +20,8 @@ DROP TABLE IF EXISTS Film ;
 
 CREATE TABLE IF NOT EXISTS Film  (
   id_filma INT NOT NULL PRIMARY KEY,
-  naziv VARCHAR(45) ,
-  trajanje INT 
+  naziv VARCHAR(45) NOT NULL,
+  trajanje INT NOT NULL
 )ENGINE = InnoDB;
 
 
@@ -31,10 +31,10 @@ DROP TABLE IF EXISTS Projektuje ;
 CREATE TABLE IF NOT EXISTS Projektuje (
  
   
-   broj_mesta INT,
+   broj_mesta INT NOT NULL,
    festival INT NOT NULL,
    film INT NOT NULL,
-   vreme VARCHAR(100),
+   vreme VARCHAR(100) NOT NULL,
    
   INDEX k_festival (festival) ,
   INDEX k_film (film) ,
@@ -52,10 +52,10 @@ CREATE TABLE IF NOT EXISTS Projektuje (
 DROP TABLE IF EXISTS Brosura_filma ;
 
 CREATE TABLE IF NOT EXISTS Brosura_filma  (
-  ime_reditelja VARCHAR(45),
-  glavni_glumci VARCHAR(100),
-  godina INT,
-  film INT,
+  ime_reditelja VARCHAR(45) NOT NULL,
+  glavni_glumci VARCHAR(100) NOT NULL,
+  godina INT NOT NULL,
+  film INT NOT NULL,
    INDEX k_film (film) ,
     FOREIGN KEY (film)
     REFERENCES Film (id_filma)
@@ -67,16 +67,16 @@ DROP TABLE IF EXISTS Gledalac ;
 
 CREATE TABLE IF NOT EXISTS Gledalac (
   id_gledaoca INT NOT NULL PRIMARY KEY,
-  ime VARCHAR(45),
-  prezime VARCHAR(45)
+  ime VARCHAR(45) NOT NULL,
+  prezime VARCHAR(45) NOT NULL
 )ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS Deca ;
 
 
 CREATE TABLE IF NOT EXISTS Deca (
-  popust INT ,
-  starost INT ,
+  popust INT NOT NULL,
+  starost INT NOT NULL,
   gledalac INT NOT NULL,
   INDEX k_gledalac (gledalac) ,
     FOREIGN KEY (gledalac)
@@ -90,7 +90,7 @@ DROP TABLE IF EXISTS Odrasli ;
 
 
 CREATE TABLE IF NOT EXISTS Odrasli (
-  popust INT ,
+  popust INT NOT NULL,
   gledalac INT NOT NULL,
   INDEX k_gledalac (gledalac) ,
     FOREIGN KEY (gledalac)
@@ -106,8 +106,8 @@ DROP TABLE IF EXISTS Novinari ;
 
 
 CREATE TABLE IF NOT EXISTS Novinari (
-  popust INT ,
-  novine VARCHAR(45),
+  popust INT NOT NULL,
+  novine VARCHAR(45) NOT NULL,
   gledalac INT NOT NULL,
   INDEX k_gledalac (gledalac) ,
     FOREIGN KEY (gledalac)
@@ -121,9 +121,9 @@ DROP TABLE IF EXISTS Karta ;
 
 CREATE TABLE IF NOT EXISTS Karta (
   id_karte INT NOT NULL PRIMARY KEY,
-  broj_sedista VARCHAR(10) ,
-  slobodno_zauzeto VARCHAR(45),
-  cena INT,
+  broj_sedista VARCHAR(10) NOT NULL,
+  slobodno_zauzeto VARCHAR(45) NOT NULL,
+  cena INT NOT NULL,
   festival INT NOT NULL,
   film INT NOT NULL,
   INDEX k_festival(festival) ,
