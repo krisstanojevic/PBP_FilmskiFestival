@@ -101,7 +101,8 @@ void upit2(MYSQL *konekcija)
 	char upit2[QUERY_SIZE];
 	
 	int festival, film, broj_mesta;
-	char vreme[100];
+	char sati[50];
+	char datum[50];
 	int broj;
 	char sediste[10];
 	
@@ -109,16 +110,30 @@ void upit2(MYSQL *konekcija)
 	scanf("%d", &festival);
 	printf("Unesite id filma: ");
 	scanf("%d", &film);
-	printf("Unesite broj: ");
+	printf("Unesite broj mesta: ");
 	scanf("%d", &broj_mesta);
 	printf("Unesite vreme: ");
-	scanf("%s",vreme);
+	scanf("%s",sati); 
+	printf("Unesite datum: ");
+	scanf("%s",datum); 
+	int w, q;
+	for(w = 0; datum[w] != '\0'; w++);
+	datum[w] = ' ';
+	w++;
+	datum[w] = 'u';
+	w++;
+	datum[w] = ' ';
+	w++;
+	for(q = 0; sati[q] != '\0'; q++, w++){
+		datum[w] = sati[q];
+	}	
+	datum[w] = '\0';
 
-	sprintf(upit,"insert into Projektuje values (%d,%d,%d, '%s')", broj_mesta,festival,film,vreme);
+	sprintf(upit,"insert into Projektuje values (%d,%d,%d, \"%s\")", broj_mesta,festival,film,datum);
 	if (mysql_query (konekcija, upit) != 0)
 		error_fatal ("Greska pri unosu nove projekcije! %s\n", mysql_error (konekcija));
 	//int broj = mysql_affected_rows(konekcija);
-	printf ("Uneta   je nova projekcija\n");
+	printf ("Uneta je nova projekcija\n");
 	
 	int i ;
 	for( i = 0; i < broj_mesta; i++)
