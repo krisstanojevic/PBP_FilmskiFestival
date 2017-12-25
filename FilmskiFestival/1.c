@@ -83,8 +83,10 @@ void upit1(MYSQL *konekcija)
 	scanf("%d", &film);
 
 	sprintf(upit,"insert into Kupuje values (%d,%d,%d,%d)", gledalac, karta,festival,film);
-	if (mysql_query (konekcija, upit) != 0)
-		error_fatal ("Greska pri kupovini karete! %s\n", mysql_error (konekcija));
+	if (mysql_query (konekcija, upit) != 0){
+		error_fatal ("Greska pri kupovini karte! %s\n", mysql_error (konekcija));
+	}
+
 	int broj = mysql_affected_rows(konekcija);
 	printf ("Kupljeno je  je: %d karte\n", broj);
 }
@@ -139,10 +141,11 @@ void upit2(MYSQL *konekcija)
 	for( i = 0; i < broj_mesta; i++)
 	{
 	 
-	  broj = (10*festival)+(100*film) + (1000*i);
-	 sprintf(sediste, "A%d", i);
-	sprintf(upit2,"insert into Karta values (%d,'%s',NULL,NULL,%d,%d)",broj,sediste, festival,film); 
-	 if (mysql_query (konekcija, upit2) != 0)
+	  //broj = (10*festival)+(100*film) + (1000*i);
+broj = i+1;
+ 	 sprintf(sediste, "A%d", i);
+  	 sprintf(upit2,"insert into Karta values (%d,'%s',NULL,NULL,%d,%d)",broj,sediste, festival,film); 
+ 	 if (mysql_query (konekcija, upit2) != 0)
 		error_fatal ("Greska pri unosu karte! %s\n", mysql_error (konekcija));
 	 
 	}

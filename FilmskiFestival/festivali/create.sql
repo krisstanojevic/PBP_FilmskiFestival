@@ -35,7 +35,9 @@ CREATE TABLE IF NOT EXISTS Projektuje (
    festival INT NOT NULL,
    film INT NOT NULL,
    vreme VARCHAR(100) NOT NULL,
-   
+
+   PRIMARY KEY (festival, film),
+
   INDEX k_festival (festival) ,
   INDEX k_film (film) ,
     FOREIGN KEY (festival)
@@ -78,6 +80,9 @@ CREATE TABLE IF NOT EXISTS Deca (
   popust INT NOT NULL,
   starost INT NOT NULL,
   gledalac INT NOT NULL,
+
+PRIMARY KEY (gledalac),
+
   INDEX k_gledalac (gledalac) ,
     FOREIGN KEY (gledalac)
     REFERENCES Gledalac (id_gledaoca)
@@ -92,6 +97,9 @@ DROP TABLE IF EXISTS Odrasli ;
 CREATE TABLE IF NOT EXISTS Odrasli (
   popust INT NOT NULL,
   gledalac INT NOT NULL,
+
+PRIMARY KEY (gledalac),
+
   INDEX k_gledalac (gledalac) ,
     FOREIGN KEY (gledalac)
     REFERENCES Gledalac (id_gledaoca)
@@ -109,6 +117,9 @@ CREATE TABLE IF NOT EXISTS Novinari (
   popust INT NOT NULL,
   novine VARCHAR(45) NOT NULL,
   gledalac INT NOT NULL,
+
+PRIMARY KEY (gledalac),
+
   INDEX k_gledalac (gledalac) ,
     FOREIGN KEY (gledalac)
     REFERENCES Gledalac (id_gledaoca)
@@ -120,7 +131,7 @@ CREATE TABLE IF NOT EXISTS Novinari (
 DROP TABLE IF EXISTS Karta ;
 
 CREATE TABLE IF NOT EXISTS Karta (
-  id_karte INT NOT NULL PRIMARY KEY,
+  id_karte INT NOT NULL ,
   broj_sedista VARCHAR(10) NOT NULL,
   slobodno_zauzeto VARCHAR(45) NOT NULL,
   cena INT NOT NULL,
@@ -128,6 +139,8 @@ CREATE TABLE IF NOT EXISTS Karta (
   film INT NOT NULL,
   INDEX k_festival(festival) ,
   INDEX k_film (film) ,
+
+PRIMARY KEY(id_karte, festival, film),
  
     FOREIGN KEY (festival)
     REFERENCES Filmski_festival (id_festivala)
@@ -147,6 +160,8 @@ CREATE TABLE IF NOT EXISTS Kupuje (
   karta INT NOT NULL,
   festival INT NOT NULL,
   film INT NOT NULL,
+
+PRIMARY KEY (karta, festival, film),
   
   INDEX k_gledalac (gledalac) ,
   INDEX k_karta (karta) ,

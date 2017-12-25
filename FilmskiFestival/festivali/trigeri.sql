@@ -7,13 +7,12 @@ CREATE TRIGGER prvi BEFORE INSERT ON Kupuje
 FOR EACH ROW
 BEGIN
 
-	
-	 IF(((select slobodno_zauzeto from Karta where new.karta = Karta.id_karte) like 'Zauzeto') or
-			((select Karta.film from Karta where new.karta = Karta.id_karte)!=new.film) or
-	 ((select Karta.festival from Karta where new.karta = Karta.id_karte)!=new.festival))
-		THEN
-		SIGNAL SQLSTATE '45000' SET message_text = 'Greska: Ta karta je vec kupljena ili ne postoji ta projekcija';
+	IF( (select count(*) from Kupuje 
+             where karta = new.karta and festival = new.festival and film = new.film) > 0 ) 
+	THEN 
+	SIGNAL SQLSTATE '45000' SET message_text = 'Greska: Ta karta je vec kupljena ili ne postoji ta projekcija';
 	 END IF;
+
 END $$
 
 DROP TRIGGER IF EXISTS drugi $$ 
@@ -22,7 +21,7 @@ FOR EACH ROW
 BEGIN
 update Karta 
 	set slobodno_zauzeto  = "Zauzeto"
-	where new.karta = id_karte ;
+	where new.karta = id_karte and festival = new.festival and film = new.film;
 END $$
 
 

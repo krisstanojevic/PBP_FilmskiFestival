@@ -12,12 +12,12 @@ $(PROGRAM): $(SRC)
 
 create:
 	mysql -u root -p < 'festivali/create.sql'
-	
-insert: trigger
-	mysql -u root -p -D festivali < 'festivali/trigeri.sql'
+
+insert: 
+	mysql -u root -p -D festivali < 'festivali/insert.sql'
 	
 trigger:
-	mysql -u root -p -D festivali < 'festivali/insert.sql'
+	mysql -u root -p -D festivali < 'festivali/trigeri.sql'
 	
 clean:
 	-rm -f *.mwb.bak
